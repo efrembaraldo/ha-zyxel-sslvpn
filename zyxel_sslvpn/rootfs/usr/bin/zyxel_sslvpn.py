@@ -156,6 +156,14 @@ def ipt_rules(tun, lan, nat):
     return [(t, c, s + ["-m", "comment", "--comment", RULE_TAG]) for t, c, s in rules]
 
 
+def ipt_accept_rules(tun, lan):
+    """Filter rules inserted on top of the iptables FORWARD chain, needed when its policy is DROP (Docker, HAOS):
+    the nft table of this script cannot override a drop issued by another chain on the same hook."""
+    rules = [("filter", "FORWARD", ["-i", tun, "-m", "conntrack", "--ctstate", "RELATED,ESTABLISHED", "-j", "ACCEPT"]),
+             ("filter", "FORWARD", (["-i", lan] if lan else []) + ["-o", tun, "-j", "ACCEPT"])]
+    return [(t, c, sp + ["-m", "comment", "--comment", RULE_TAG]) for t, c, sp in rules]
+
+
 def ipt_apply(rules, add):
     for table, chain, spec in (reversed(rules) if add else rules):
         if add and table == "filter":
@@ -190,8 +198,11 @@ def setup_forward(tun, lan, nat):
             if shutil.which("iptables"):
                 pol = subprocess.run(["iptables", "-S", "FORWARD"], capture_output=True, text=True, check=False).stdout
                 if "-P FORWARD DROP" in pol:
-                    print("warning: iptables FORWARD policy is DROP (ufw, docker?). Packets from the LAN may be "
-                          "dropped before they reach the tunnel; allow them in that firewall.", file=sys.stderr)
+                    print("iptables FORWARD policy is DROP (docker?): adding accept rules for the tunnel",
+                          file=sys.stderr)
+                    st["rules"] = ipt_accept_rules(tun, lan)
+                    ipt_apply(st["rules"], add=False)  # leftover of a killed run
+                    ipt_apply(st["rules"], add=True)
         elif shutil.which("iptables"):
             st["backend"], st["rules"] = "iptables", ipt_rules(tun, lan, nat)
             ipt_apply(st["rules"], add=False)  # leftover of a killed run: removes rules with the same spec
@@ -210,6 +221,8 @@ def setup_forward(tun, lan, nat):
 def teardown_forward(st):
     if st["backend"] == "nft":
         sh("nft", "delete", "table", "ip", RULE_TAG, check=False, quiet=True)
+        if st["rules"]:
+            ipt_apply(st["rules"], add=False)
     elif st["backend"] == "iptables":
         ipt_apply(st["rules"], add=False)
     try:

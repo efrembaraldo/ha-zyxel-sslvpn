@@ -1,9 +1,9 @@
 ---
 name: Zyxel SSL VPN
-version: "0.1.0"
+version: "0.1.1"
 slug: zyxel_sslvpn
 description: Client SSL VPN per firewall Zyxel ZLD (protocollo SecuExtender)
-url: https://github.com/CHANGE-ME/ha-zyxel-sslvpn
+url: https://github.com/efrembaraldo/ha-zyxel-sslvpn
 init: false
 arch:
   - aarch64
