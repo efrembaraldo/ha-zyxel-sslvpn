@@ -82,6 +82,8 @@ sudo ./zyxel_sslvpn.py vpn.example.com 443 utente --pin <sha256 certificato>
 
 Per l'uso nell'add-on viene invocato con `--options-file /data/options.json`.
 
-## Da completare
+## License
 
-Sostituisci i placeholder `CHANGE-ME` in `repository.yaml` e `zyxel_sslvpn/config.yaml` con l'URL del tuo repository GitHub.
+MIT. See [LICENSE](LICENSE).
+
+Efrem Baraldo
