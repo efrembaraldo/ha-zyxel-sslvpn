@@ -4,6 +4,10 @@ Client SSL VPN per firewall Zyxel ZLD (USG FLEX, ATP, serie VPN), compatibile co
 
 Architetture supportate: `amd64`, `aarch64`.
 
+## Ispirazione
+
+Questo progetto è nato dallo studio di [rainpwn/zyxel-secuextender-linux](https://github.com/rainpwn/zyxel-secuextender-linux), un client Linux per il protocollo SecuExtender di Zyxel, che ha ispirato lo sviluppo di `ha-zyxel-sslvpn`.
+
 ## Installazione
 
 1. In Home Assistant vai su **Impostazioni → Add-on → Store degli add-on**.
@@ -66,7 +70,6 @@ zyxel_sslvpn/
 └── rootfs/
     ├── etc/services.d/zyxel-sslvpn/{run,finish}
     └── usr/bin/zyxel_sslvpn.py   # client, legge /data/options.json
-zyxel_sslvpn.py          # script originale standalone
 ```
 
 ## Uso standalone dello script
