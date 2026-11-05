@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Starts the Zyxel SSL VPN client
+# ==============================================================================
+bashio::config.require 'host'
+bashio::config.require 'username'
+bashio::config.require 'password'
+
+bashio::log.info "Connecting to $(bashio::config 'host'):$(bashio::config 'port')..."
+
+# exec: SIGTERM from s6 reaches python, which logs out from the firewall cleanly
+exec python3 -u /usr/bin/zyxel_sslvpn.py --options-file /data/options.json

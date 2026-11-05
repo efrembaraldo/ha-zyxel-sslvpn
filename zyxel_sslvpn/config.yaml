@@ -1,0 +1,45 @@
+---
+name: Zyxel SSL VPN
+version: "0.1.0"
+slug: zyxel_sslvpn
+description: Client SSL VPN per firewall Zyxel ZLD (protocollo SecuExtender)
+url: https://github.com/CHANGE-ME/ha-zyxel-sslvpn
+init: false
+arch:
+  - aarch64
+  - amd64
+startup: services
+boot: auto
+host_network: true
+privileged:
+  - NET_ADMIN
+devices:
+  - /dev/net/tun
+options:
+  host: ""
+  port: 443
+  username: ""
+  password: ""
+  certificate_pin: ""
+  insecure: false
+  interface_name: zyvpn0
+  gateway_mode: false
+  lan_interface: ""
+  no_nat: false
+  auto_reconnect: true
+  reconnect_delay: 15
+  verbose: false
+schema:
+  host: str
+  port: port
+  username: str
+  password: password
+  certificate_pin: str?
+  insecure: bool
+  interface_name: str
+  gateway_mode: bool
+  lan_interface: str?
+  no_nat: bool
+  auto_reconnect: bool
+  reconnect_delay: int(5,600)
+  verbose: bool

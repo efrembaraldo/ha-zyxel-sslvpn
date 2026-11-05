@@ -1,0 +1,41 @@
+---
+configuration:
+  host:
+    name: Host firewall
+    description: Indirizzo o FQDN del firewall Zyxel
+  port:
+    name: Porta
+    description: Porta SSL VPN
+  username:
+    name: Utente
+    description: Utente VPN
+  password:
+    name: Password
+    description: Password VPN
+  certificate_pin:
+    name: Pin certificato (SHA256)
+    description: Impronta SHA256 del certificato del firewall
+  insecure:
+    name: Non verificare il certificato
+    description: Sconsigliato; usare il pin del certificato
+  interface_name:
+    name: Nome interfaccia TUN
+    description: Nome dell'interfaccia virtuale
+  gateway_mode:
+    name: Modalità gateway
+    description: Abilita forwarding IPv4 e NAT verso la VPN
+  lan_interface:
+    name: Interfaccia LAN
+    description: Con modalità gateway, accetta solo traffico da questa interfaccia
+  no_nat:
+    name: Disabilita NAT
+    description: Con modalità gateway, non applica masquerade
+  auto_reconnect:
+    name: Riconnessione automatica
+    description: Riprova se la connessione cade
+  reconnect_delay:
+    name: Attesa riconnessione (s)
+    description: Secondi tra i tentativi
+  verbose:
+    name: Log dettagliato
+    description: Stampa informazioni di debug
